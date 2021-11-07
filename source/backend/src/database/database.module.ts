@@ -11,7 +11,7 @@ import { config } from 'src/@core/config/config';
         const { mongo } = config;
         const { username, password, database, host   } = mongo;
         return {
-          uri: `mongodb://${username}:${password}@${host}`,
+          uri: `mongodb+srv://${username}:${password}@${host}`,
           dbName: database,
         };
       },
