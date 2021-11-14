@@ -1,3 +1,4 @@
+import { FindByEmailDto } from './dto/findOne.dto';
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import CreateUserDto from "./dto/createUser.dto";
@@ -17,4 +18,9 @@ export class UsersService {
   async findAll() : Promise<UserDocument[]> {
     return this.userModel.find();
   }
+
+  async findByEmail(email : string) {
+    return await this.userModel.findOne({email})  
+  }
+    
 }

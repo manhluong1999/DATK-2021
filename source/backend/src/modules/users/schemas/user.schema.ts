@@ -27,12 +27,17 @@ export class User {
   fullName: string;
 
   @Prop()
-  @Exclude()
-  password: string;
+  uid: string
+
+  @Prop()
+  phone: string
+
+  @Prop()
+  address: string
 }
 
 const UserSchema = SchemaFactory.createForClass(User);
 
-UserSchema.index({ firstName: 'text', lastName: 'text' });
+UserSchema.index({ email: 'text' });
 
 export { UserSchema };
