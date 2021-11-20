@@ -1,23 +1,29 @@
-import logo from './logo.svg';
+import React from 'react';
+import { BrowserRouter, Route, Routes, Navigate} from 'react-router-dom';
 import './App.css';
+import { Footer } from './components/Footer';
+import { Header } from './components/Header';
+import HomePage from './pages/Dashboard/Dashboard';
+import Login from './pages/Login/Login';
+import Signup from './pages/Signup/Signup';
+import useToken from './useToken';
 
-function App() {
+
+const App = () => {
+  const {token} = useToken()
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="wrapper">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomePage />}>
+          </Route>
+          <Route path="/login" element={token ? <Navigate to='/' /> :<Login />}>
+          </Route>
+          <Route path="/signup" element={<Signup />}>
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

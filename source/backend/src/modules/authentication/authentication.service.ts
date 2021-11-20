@@ -61,6 +61,7 @@ export class AuthenticationService {
 
         return {
           accessToken,
+          refreshToken: user?.refreshToken,
           uid: user.uid,
           email: user.email,
         };
