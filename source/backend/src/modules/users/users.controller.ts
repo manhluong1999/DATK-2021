@@ -1,7 +1,8 @@
+import { UpdateUserDto } from './dto/updateUser.dto';
 import { GUARDS } from './../../@core/constants/guards.enum';
 import { Public } from './../../@core/constants/decorators.constants';
 import { ApiBearerAuth } from '@nestjs/swagger';
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch } from '@nestjs/common';
 import { UsersService } from './users.service';
 
 @ApiBearerAuth('JWT')
@@ -11,7 +12,21 @@ export class UsersController {
   @Public([GUARDS.PUBLIC_GUARD])
   @Get()
   async findAll() {
-    return this.usersService.findAll()
+    return this.usersService.findAll();
   }
 
+  @Public([GUARDS.PUBLIC_GUARD])
+  @Get(':email')
+  async findByEmail(@Param('email') email: string) {
+    return this.usersService.findByEmail(email);
+  }
+
+  @Public([GUARDS.PUBLIC_GUARD])
+  @Patch(':email')
+  async updateByEmail(
+    @Param('email') email: string,
+    @Body() data: UpdateUserDto,
+  ) {
+    return this.usersService.updateOne(email, data);
+  }
 }

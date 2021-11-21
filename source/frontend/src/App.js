@@ -1,8 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes, Navigate} from 'react-router-dom';
 import './App.css';
-import { Footer } from './components/Footer';
-import { Header } from './components/Header';
+import AccountManagement from './pages/AccountManagement/AccountManagement';
 import HomePage from './pages/Dashboard/Dashboard';
 import Login from './pages/Login/Login';
 import Signup from './pages/Signup/Signup';
@@ -17,6 +16,8 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />}>
+          </Route>
+          <Route path="/account" element={<AccountManagement />}>
           </Route>
           <Route path="/login" element={token ? <Navigate to='/' /> :<Login />}>
           </Route>

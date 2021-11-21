@@ -6,8 +6,7 @@ const mdTheme = createTheme();
 
 
 export const Footer = () => {
-    return <ThemeProvider theme={mdTheme}>
-      <Box
+    return <Box
     component="footer"
     sx={{
       py: 3,
@@ -32,5 +31,4 @@ export const Footer = () => {
     </Typography>
     </Container>
   </Box>
-    </ThemeProvider>
 }
