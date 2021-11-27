@@ -2,7 +2,7 @@ import { UpdateUserDto } from './dto/updateUser.dto';
 import { GUARDS } from './../../@core/constants/guards.enum';
 import { Public } from './../../@core/constants/decorators.constants';
 import { ApiBearerAuth } from '@nestjs/swagger';
-import { Body, Controller, Get, Param, Patch } from '@nestjs/common';
+import { Body, Controller, Get, Param, Put } from '@nestjs/common';
 import { UsersService } from './users.service';
 
 @ApiBearerAuth('JWT')
@@ -22,7 +22,7 @@ export class UsersController {
   }
 
   @Public([GUARDS.PUBLIC_GUARD])
-  @Patch(':email')
+  @Put(':email')
   async updateByEmail(
     @Param('email') email: string,
     @Body() data: UpdateUserDto,

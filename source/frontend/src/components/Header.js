@@ -22,7 +22,9 @@ import LayersIcon from '@mui/icons-material/Layers';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import InfoIcon from '@mui/icons-material/Info';
-
+import ApiIcon from '@mui/icons-material/Api';
+import PublicIcon from '@mui/icons-material/Public';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
 const drawerWidth = 240;
 
@@ -129,6 +131,15 @@ function DashboardContent() {
           </Typography>
           <IconButton
             size="large"
+            aria-label="download html"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            color="inherit"
+          >
+            <FileDownloadIcon />
+          </IconButton>
+          <IconButton
+            size="large"
             aria-label="account of current user"
             aria-controls="menu-appbar"
             aria-haspopup="true"
@@ -192,23 +203,35 @@ function DashboardContent() {
               </ListItemIcon>
               <ListItemText primary="Home Page" />
             </ListItem>
-            <ListItem button>
+            <ListItem button onClick={() => navigate('/aboutme')}>
               <ListItemIcon>
                 <InfoIcon />
               </ListItemIcon>
               <ListItemText primary="About Me" />
             </ListItem>
-            <ListItem button>
+            <ListItem button onClick={() => navigate('/lectures')}>
               <ListItemIcon>
                 <LibraryBooksIcon />
               </ListItemIcon>
               <ListItemText primary="Lectures" />
             </ListItem>
-            <ListItem button>
+            <ListItem button onClick={() => navigate('/projects')}>
               <ListItemIcon>
                 <LayersIcon />
               </ListItemIcon>
               <ListItemText primary="Projects" />
+            </ListItem>
+            <ListItem button onClick={() => navigate('/software')}>
+              <ListItemIcon>
+                <ApiIcon />
+              </ListItemIcon>
+              <ListItemText primary="Software" />
+            </ListItem>
+            <ListItem button onClick={() => navigate('/publications')}>
+              <ListItemIcon>
+                <PublicIcon />
+              </ListItemIcon>
+              <ListItemText primary="Publications" />
             </ListItem>
         </List>
         <Divider />

@@ -7,18 +7,16 @@ import { Container, Grid, Toolbar, Paper, Typography, IconButton, TextField } fr
 import useToken from '../../useToken';
 import EditIcon from '@mui/icons-material/Edit';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import SaveIcon from '@mui/icons-material/Save';
 
 const mdTheme = createTheme();
 
 
 export default function AccountManagement() {
-  // const user = {
-  //   email: "abc@gmail.com",
-  //   firstName: "manh",
-  //   lastName: "luong"
-  // }
+
   const { token } = useToken()
   const [user, setUser] = useState()
+  const [refreshKey, setRefreshKey] = useState(0);
   const [firstName, setFirstName] = useState()
   const [lastName, setLastName] = useState()
   const [address, setAddress] = useState()
@@ -26,15 +24,6 @@ export default function AccountManagement() {
   const [fax, setFax] = useState()
 
   useEffect(() => {
-    // fetch('http://localhost:4000/api/v1/users/'+token.email, {
-    //   method: 'GET',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Authorization': 'Bearer ' + token.accessToken,
-    //   },
-    // })
-    //   .then(response => response.json())
-    //   .then(data => setUser(data))
     async function fetchUser() {
       const response = await fetch('http://localhost:4000/api/v1/users/' + token.email, {
         method: 'GET',
@@ -47,8 +36,21 @@ export default function AccountManagement() {
       setUser(data)
     }
     fetchUser()
-  }, [])
-  console.log(firstName)
+  }, [refreshKey])
+
+  const updateData = async (body) => {
+    const response = await fetch('http://localhost:4000/api/v1/users/' + token.email, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token.accessToken,
+      },
+      body: JSON.stringify(body)
+    })
+    const data = await response.json()
+    setUser(data)
+    setRefreshKey(oldKey => oldKey +1)
+  }
   return <ThemeProvider theme={mdTheme}>
     <Box sx={{ display: 'flex' }}>
       <Header />
@@ -93,20 +95,23 @@ export default function AccountManagement() {
                 {user?.firstName}
               </Paper>
               <TextField
-              margin="normal"
-              fullWidth
-              id="firstName"
-              label="First Name"
-              autoFocus
-              style={ firstName? {}: {display: 'none'} }
-              onChange={e => setFirstName(e.target.value)}
-            />
+                margin="normal"
+                fullWidth
+                id="firstName"
+                label="First Name"
+                autoFocus
+                style={firstName ? {} : { display: 'none' }}
+                onChange={e => setFirstName(e.target.value)}
+              />
+              <IconButton style={firstName ? {} : { display: 'none' }}  onClick={() => updateData({firstName})}>
+                 <SaveIcon />
+              </IconButton>
             </Grid>
             <Grid item xs={12} lg={2}>
               <IconButton sx={{ p: 2, display: 'flex', flexDirection: 'column' }} onClick={() => setFirstName(true)}>
                 <EditIcon />
               </IconButton>
-              <IconButton style={ firstName? {}: {display: 'none'} } sx={{ p: 2, display: 'flex', flexDirection: 'column' }} onClick={() => setFirstName(false)}>
+              <IconButton style={firstName ? {} : { display: 'none' }} sx={{ p: 2, display: 'flex', flexDirection: 'column' }} onClick={() => setFirstName(false)}>
                 <ArrowDropUpIcon />
               </IconButton>
             </Grid>
@@ -122,20 +127,23 @@ export default function AccountManagement() {
                 {user?.lastName}
               </Paper>
               <TextField
-              margin="normal"
-              fullWidth
-              id="lastName"
-              label="Last Name"
-              autoFocus
-              style={ lastName? {}: {display: 'none'} }
-              onChange={e => setLastName(e.target.value)}
-            />
+                margin="normal"
+                fullWidth
+                id="lastName"
+                label="Last Name"
+                autoFocus
+                style={lastName ? {} : { display: 'none' }}
+                onChange={e => setLastName(e.target.value)}
+              />
+              <IconButton style={lastName ? {} : { display: 'none' }}  onClick={() => updateData({lastName})}>
+                 <SaveIcon />
+              </IconButton>
             </Grid>
             <Grid item xs={12} lg={2}>
               <IconButton sx={{ p: 2, display: 'flex', flexDirection: 'column' }} onClick={() => setLastName(true)}>
                 <EditIcon />
               </IconButton>
-              <IconButton style={ lastName? {}: {display: 'none'} } sx={{ p: 2, display: 'flex', flexDirection: 'column' }} onClick={() => setLastName(false)}>
+              <IconButton style={lastName ? {} : { display: 'none' }} sx={{ p: 2, display: 'flex', flexDirection: 'column' }} onClick={() => setLastName(false)}>
                 <ArrowDropUpIcon />
               </IconButton>
             </Grid>
@@ -148,23 +156,26 @@ export default function AccountManagement() {
             </Grid>
             <Grid item xs={12} lg={8}>
               <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                {user?.address ? user?.address : "No address info" }
+                {user?.address ? user?.address : "No address info"}
               </Paper>
               <TextField
-              margin="normal"
-              fullWidth
-              id="address"
-              label="Address"
-              autoFocus
-              style={ address? {}: {display: 'none'} }
-              onChange={e => setAddress(e.target.value)}
-            />
+                margin="normal"
+                fullWidth
+                id="address"
+                label="Address"
+                autoFocus
+                style={address ? {} : { display: 'none' }}
+                onChange={e => setAddress(e.target.value)}
+              />
+               <IconButton style={address ? {} : { display: 'none' }}  onClick={() => updateData({address})}>
+                 <SaveIcon />
+              </IconButton>
             </Grid>
             <Grid item xs={12} lg={2}>
               <IconButton sx={{ p: 2, display: 'flex', flexDirection: 'column' }} onClick={() => setAddress(true)}>
                 <EditIcon />
               </IconButton>
-              <IconButton style={ address? {}: {display: 'none'} } sx={{ p: 2, display: 'flex', flexDirection: 'column' }} onClick={() => setAddress(false)}>
+              <IconButton style={address ? {} : { display: 'none' }} sx={{ p: 2, display: 'flex', flexDirection: 'column' }} onClick={() => setAddress(false)}>
                 <ArrowDropUpIcon />
               </IconButton>
             </Grid>
@@ -177,23 +188,26 @@ export default function AccountManagement() {
             </Grid>
             <Grid item xs={12} lg={8}>
               <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                {user?.phone ? user?.phone : "No phone info" }
+                {user?.phone ? user?.phone : "No phone info"}
               </Paper>
               <TextField
-              margin="normal"
-              fullWidth
-              id="phone"
-              label="Phone"
-              autoFocus
-              style={ phone? {}: {display: 'none'} }
-              onChange={e => setPhone(e.target.value)}
-            />
+                margin="normal"
+                fullWidth
+                id="phone"
+                label="Phone"
+                autoFocus
+                style={phone ? {} : { display: 'none' }}
+                onChange={e => setPhone(e.target.value)}
+              />
+              <IconButton style={phone ? {} : { display: 'none' }}  onClick={() => updateData({phone})}>
+                 <SaveIcon />
+              </IconButton>
             </Grid>
             <Grid item xs={12} lg={2}>
               <IconButton sx={{ p: 2, display: 'flex', flexDirection: 'column' }} onClick={() => setPhone(true)}>
                 <EditIcon />
               </IconButton>
-              <IconButton style={ phone? {}: {display: 'none'} } sx={{ p: 2, display: 'flex', flexDirection: 'column' }} onClick={() => setPhone(false)}>
+              <IconButton style={phone ? {} : { display: 'none' }} sx={{ p: 2, display: 'flex', flexDirection: 'column' }} onClick={() => setPhone(false)}>
                 <ArrowDropUpIcon />
               </IconButton>
             </Grid>
@@ -206,23 +220,26 @@ export default function AccountManagement() {
             </Grid>
             <Grid item xs={12} lg={8}>
               <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                {fax?.phone ? fax?.phone : "No fax info" }
+                {user?.fax ? user?.fax : "No fax info"}
               </Paper>
               <TextField
-              margin="normal"
-              fullWidth
-              id="fax"
-              label="Fax"
-              autoFocus
-              style={ fax? {}: {display: 'none'} }
-              onChange={e => setFax(e.target.value)}
-            />
+                margin="normal"
+                fullWidth
+                id="fax"
+                label="Fax"
+                autoFocus
+                style={fax ? {} : { display: 'none' }}
+                onChange={e => setFax(e.target.value)}
+              />
+              <IconButton style={fax ? {} : { display: 'none' }}  onClick={() => updateData({fax})}>
+                 <SaveIcon />
+              </IconButton>
             </Grid>
             <Grid item xs={12} lg={2}>
               <IconButton sx={{ p: 2, display: 'flex', flexDirection: 'column' }} onClick={() => setFax(true)}>
                 <EditIcon />
               </IconButton>
-              <IconButton style={ fax? {}: {display: 'none'} } sx={{ p: 2, display: 'flex', flexDirection: 'column' }} onClick={() => setFax(false)}>
+              <IconButton style={fax ? {} : { display: 'none' }} sx={{ p: 2, display: 'flex', flexDirection: 'column' }} onClick={() => setFax(false)}>
                 <ArrowDropUpIcon />
               </IconButton>
             </Grid>

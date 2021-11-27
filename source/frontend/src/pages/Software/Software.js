@@ -7,7 +7,7 @@ import { Container, Grid, Toolbar, Paper } from '@mui/material';
 
 const mdTheme = createTheme();
 
-export default function HomePage() {
+export default function Software() {
   return <ThemeProvider theme={mdTheme}>
     <Box sx={{ display: 'flex' }}>
       <Header />
@@ -36,7 +36,7 @@ export default function HomePage() {
                   height: 240,
                 }}
               >
-                Dashboard
+                Software
               </Paper>
               <Paper
                 sx={{

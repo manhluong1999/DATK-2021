@@ -1,3 +1,4 @@
+import { PostsModule } from './../../modules/posts/posts.module';
 import { HealthModule } from './../../modules/health/health.module';
 import { UsersModule } from './../../modules/users/users.module';
 import { Routes } from 'nest-router';
@@ -18,6 +19,10 @@ export const ROUTERS: Routes = [
       {
         path: '/health',
         module: HealthModule
+      },
+      {
+        path: '/posts',
+        module: PostsModule
       }
     ],
   },

@@ -33,6 +33,9 @@ export class User {
   phone: string
 
   @Prop()
+  fax: string
+
+  @Prop()
   address: string
 }
 
