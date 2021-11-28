@@ -11,7 +11,7 @@ export class LogInDto {
 
   @ApiProperty({
     type: String,
-    example: "123456789a"
+    example: "12345678a"
   })
   @IsString()
   @IsNotEmpty()

@@ -12,6 +12,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import useToken from '../../useToken';
 import { Navigate } from 'react-router-dom';
+import { Alert, AlertTitle } from '@mui/material';
 
 function Copyright(props) {
   return (
@@ -36,13 +37,7 @@ async function signUpUser(credentials) {
     body: JSON.stringify(credentials)
   })
     .then(data => data.json())
-    .catch(error =>{
-      console.log(error.code)
-      if (error.code == 500) {
-        return 'email existed'
-      }
-    })
- }
+}
 
 const theme = createTheme();
 
@@ -54,24 +49,37 @@ export default function Signup() {
   const [lastName, setLastName] = useState();
   const { token } = useToken();
   const [isSuccess, setSuccess] = useState(false);
+  const [errorCode, setError] = useState(0)
 
   const handleSubmit = async e => {
-    e.preventDefault();
-    const result = await signUpUser({
-      email,
-      password,
-      firstName,
-      lastName
-    });
-    setSuccess(true)
+    try {
+      e.preventDefault();
+      const result = await signUpUser({
+        email,
+        password,
+        firstName,
+        lastName
+      });
+      if (result.code === 500) {
+        setError(500)
+      } else if (result.code === 400) {
+        setError(400)
+      } else {
+        // setSuccess(true)
+        console.log(result.code)
+        setError(200)
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
   if (isSuccess) {
-    return  <Navigate to="/login"/>
+    return <Navigate to="/login" />
   }
-  if(token) {
-    return <Navigate to="/"/>
+  if (token) {
+    return <Navigate to="/" />
   }
-  
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -101,7 +109,7 @@ export default function Signup() {
                   id="firstName"
                   label="First Name"
                   autoFocus
-                  onChange= { e => setFirstName(e.target.value)}
+                  onChange={e => setFirstName(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -154,6 +162,18 @@ export default function Signup() {
                 </Link>
               </Grid>
             </Grid>
+            {errorCode == 500 && <Alert severity="error"  onClose={() => setError(0)}>
+              <AlertTitle>Error</AlertTitle>
+              Email address is existed. <strong>Please try again!</strong>
+            </Alert>}
+            {errorCode == 400 && <Alert severity="error"  onClose={() => setError(0)}>
+              <AlertTitle>Error</AlertTitle>
+             Something happened. <strong>Please try again!</strong>
+            </Alert>}
+            {errorCode == 200 && <Alert severity="success"  onClose={() => setError(0)}>
+              <AlertTitle>Success</AlertTitle>
+            Sign up successfully. <strong>Redirect to login!</strong>
+            </Alert>}
           </Box>
         </Box>
         <Copyright sx={{ mt: 5 }} />

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigate, useNavigate , useMatch } from 'react-router-dom';
+import { Navigate, useNavigate, useMatch } from 'react-router-dom';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -78,7 +78,8 @@ function DashboardContent() {
   const [open, setOpen] = React.useState(true);
   const navigate = useNavigate()
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const {token} = useToken()
+  const { token } = useToken()
+  const [page, setPage] = React.useState()
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -197,42 +198,60 @@ function DashboardContent() {
         </Toolbar>
         <Divider />
         <List>
-            <ListItem button onClick={() => navigate('/')} >
-              <ListItemIcon>
-                <DashboardIcon />
-              </ListItemIcon>
-              <ListItemText primary="Home Page" />
-            </ListItem>
-            <ListItem button onClick={() => navigate('/aboutme')}>
-              <ListItemIcon>
-                <InfoIcon />
-              </ListItemIcon>
-              <ListItemText primary="About Me" />
-            </ListItem>
-            <ListItem button onClick={() => navigate('/lectures')}>
-              <ListItemIcon>
-                <LibraryBooksIcon />
-              </ListItemIcon>
-              <ListItemText primary="Lectures" />
-            </ListItem>
-            <ListItem button onClick={() => navigate('/projects')}>
-              <ListItemIcon>
-                <LayersIcon />
-              </ListItemIcon>
-              <ListItemText primary="Projects" />
-            </ListItem>
-            <ListItem button onClick={() => navigate('/software')}>
-              <ListItemIcon>
-                <ApiIcon />
-              </ListItemIcon>
-              <ListItemText primary="Software" />
-            </ListItem>
-            <ListItem button onClick={() => navigate('/publications')}>
-              <ListItemIcon>
-                <PublicIcon />
-              </ListItemIcon>
-              <ListItemText primary="Publications" />
-            </ListItem>
+          <ListItem button onClick={() => {
+             setPage('homepage')
+             navigate('/')
+          }} style={{backgroundColor: page === "homepage" ? "#1976d2" : ""}} >
+            <ListItemIcon>
+              <DashboardIcon />
+            </ListItemIcon>
+            <ListItemText primary="Home Page" />
+          </ListItem>
+          <ListItem button onClick={() => {
+            setPage('aboutme')
+            navigate('/aboutme')
+          }} style={{backgroundColor: page === "aboutme" ? "#1976d2" : ""}}>
+            <ListItemIcon>
+              <InfoIcon />
+            </ListItemIcon>
+            <ListItemText primary="About Me" />
+          </ListItem>
+          <ListItem button onClick={() => {
+            setPage('lectures')
+            navigate('/lectures')
+          }} style={{backgroundColor: page === "lectures" ? "#1976d2" : ""}}>
+            <ListItemIcon>
+              <LibraryBooksIcon />
+            </ListItemIcon>
+            <ListItemText primary="Lectures" />
+          </ListItem>
+          <ListItem button onClick={() => {
+            setPage('projects')
+            navigate('/projects')
+          }} style={{backgroundColor: page === "projects" ? "#1976d2" : ""}}>
+            <ListItemIcon>
+              <LayersIcon />
+            </ListItemIcon>
+            <ListItemText primary="Projects" />
+          </ListItem>
+          <ListItem button onClick={() => {
+            setPage('software')
+            navigate('/software')
+          }} style={{backgroundColor: page === "software" ? "#1976d2" : ""}}>
+            <ListItemIcon>
+              <ApiIcon />
+            </ListItemIcon>
+            <ListItemText primary="Software" />
+          </ListItem>
+          <ListItem button onClick={() => {
+            setPage('publications')
+            navigate('/publications')
+          }} style={{backgroundColor: page === "publications" ? "#1976d2" : ""}}>
+            <ListItemIcon>
+              <PublicIcon />
+            </ListItemIcon>
+            <ListItemText primary="Publications" />
+          </ListItem>
         </List>
         <Divider />
       </Drawer>

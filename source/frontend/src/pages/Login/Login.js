@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -15,6 +14,8 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Navigate } from 'react-router-dom';
 import useToken from '../../useToken';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
 function Copyright(props) {
   return (
@@ -41,27 +42,36 @@ async function loginUser(credentials) {
     .then(data => {
       return data.json()
     })
- }
+}
 
 export default function Login() {
 
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [error, setError] = useState(false)
   const { token, setToken } = useToken();
 
   const handleSubmit = async e => {
-    e.preventDefault();
-    const token = await loginUser({
-      email,
-      password
-    });
-    setToken(token);
+    try {
+      e.preventDefault();
+      const token = await loginUser({
+        email,
+        password
+      });
+      if (token.code != 400) {
+        setToken(token);
+      } else {
+        setError(true)
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
-  if(token) {
-    return <Navigate to="/"/>
+  if (token) {
+    return <Navigate to="/" />
   }
-  return(
+  return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -121,8 +131,13 @@ export default function Login() {
                 </Link>
               </Grid>
             </Grid>
+            <Alert severity="error" style={{display: error ? "" :"none"}} onClose={() => setError(false)}>
+              <AlertTitle>Error</AlertTitle>
+              Email or password is incorrect. <strong>Please try again!</strong>
+            </Alert>
           </Box>
         </Box>
+
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>

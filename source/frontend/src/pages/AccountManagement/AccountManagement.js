@@ -48,7 +48,6 @@ export default function AccountManagement() {
       body: JSON.stringify(body)
     })
     const data = await response.json()
-    setUser(data)
     setRefreshKey(oldKey => oldKey +1)
   }
   return <ThemeProvider theme={mdTheme}>

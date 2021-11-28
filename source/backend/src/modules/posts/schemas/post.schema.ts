@@ -15,7 +15,7 @@ export class Post {
   _id: ObjectId;
 
   @Prop()
-  user_uid: string;
+  uid: string;
 
   @Prop()
   page: string
@@ -29,10 +29,13 @@ export class Post {
   @Prop()
   content: string;
 
+  @Prop()
+  description: string;
+
 }
 
 const PostSchema = SchemaFactory.createForClass(Post);
 
-PostSchema.index({ user_uid: 'text' });
+PostSchema.index({ uid: 'text' });
 
 export { PostSchema };
