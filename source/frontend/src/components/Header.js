@@ -111,7 +111,7 @@ function DashboardContent() {
       },
     })
     const data = await response.json()
-    await getBlob(data.url, 'download.html')
+    await getBlob(data.url, `${token.email.split('@')[0]}.html`)
   }
   return (
     <>

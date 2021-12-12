@@ -22,7 +22,9 @@ export class UsersService {
   async findAll(): Promise<UserDocument[]> {
     return this.userModel.find();
   }
-
+  async findByUID(uid: string) {
+    return await this.userModel.findOne({ uid });
+  }
   async findByEmail(email: string) {
     return await this.userModel.findOne({ email });
   }
@@ -38,7 +40,7 @@ export class UsersService {
       const buffer = file.buffer;
       await this.storageService.uploadImg(fileName, buffer);
       const url = await this.storageService.getdownloadFile(fileName);
-      data.imgUrl = url.url
+      data.imgUrl = url.url;
     }
     return await this.userModel.updateOne(
       {

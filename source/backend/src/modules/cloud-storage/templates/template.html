@@ -2,7 +2,9 @@
 <html>
 
 <head>
-    <title>Personal website</title>
+    <title>{{firstName}} {{lastName}} 's Personal website</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
         body {
             font-family: Arial;
@@ -44,65 +46,109 @@
             border: 1px solid #ccc;
             border-top: none;
         }
+
+        h2,
+        h4 {
+            font-weight: bold;
+        }
     </style>
 </head>
 <div>
-    <div class="tab">
-        <button class="tablinks" onclick="openCity(event, 'aboutme')">About Me</button>
-        <button class="tablinks" onclick="openCity(event, 'lectures')">Lectures</button>
-        <button class="tablinks" onclick="openCity(event, 'projects')">Projects</button>
-        <button class="tablinks" onclick="openCity(event, 'software')">Software</button>
-        <button class="tablinks" onclick="openCity(event, 'publications')">Publications</button>
-    </div>
-    <div id="aboutme" class="tabcontent">
-        <h3> About Me</h3>
-        <ul> {{#each aboutme}}
-            <li>
-                <h4>{{title}} </h4>
-                <p> {{content}}</p>
-            </li>
-            {{/each}}
-        </ul>
-    </div>
-    <div id="lectures" class="tabcontent">
-        <h3> Lectures</h3>
-        <ul> {{#each lectures}}
-            <li>
-                <h4>{{title}} </h4>
-                <p> {{content}}</p>
-            </li>
-            {{/each}}
-        </ul>
-    </div>
-    <div id="projects" class="tabcontent">
-        <h3>Projects</h3>
-        <ul> {{#each projects}}
-            <li>
-                <h4>{{title}} </h4>
-                <p> {{content}}</p>
-            </li>
-            {{/each}}
-        </ul>
-    </div>
-    <div id="software" class="tabcontent">
-        <h3> Software</h3>
-        <ul> {{#each software}}
-            <li>
-                <h4>{{title}} </h4>
-                <p> {{content}}</p>
-            </li>
-            {{/each}}
-        </ul>
-    </div>
-    <div id="publications" class="tabcontent">
-        <h3>Publications</h3>
-        <ul> {{#each publications}}
-            <li>
-                <h4>{{title}} </h4>
-                <p> {{content}}</p>
-            </li>
-            {{/each}}
-        </ul>
+    <div class="container">
+        <div class="tab">
+            <button class="tablinks active" onclick="openCity(event, 'aboutme')">About Me</button>
+            <button class="tablinks" onclick="openCity(event, 'lectures')">Lectures</button>
+            <button class="tablinks" onclick="openCity(event, 'projects')">Projects</button>
+            <button class="tablinks" onclick="openCity(event, 'software')">Software</button>
+            <button class="tablinks" onclick="openCity(event, 'publications')">Publications</button>
+        </div>
+        <div id="aboutme" class="tabcontent" style="display: block;">
+            <h2> About Me</h2>
+            <div class="row">
+                <div class="col-sm">
+                    <div>
+                        <img src={{{user.imgUrl}}} class="img-responsive" width="500" height="600">
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <h3 style="color:#4ac3bf"> {{user.firstName}} {{user.lastName}}</h3>
+                    <h3> Email: {{user.email}}</h3>
+                    <h3> Phone: {{user.phone}}</h3>
+                    <h3> Fax: {{user.fax}}</h3>
+                    <h3> Address: {{user.address}}</h3>
+                    <ul> {{#each aboutme}}
+                        <li>
+                            <h4>{{title}} </h4>
+                            <p> {{content}}</p>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="lectures" class="tabcontent">
+            <h2> Lectures</h2>
+            <h3>These are my lectures in my responsible</h3>
+            <br />
+            <div class="row">
+                {{#each lectures}}
+                <div class="col-2">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/my-datk.appspot.com/o/soict.jpg?alt=media&token=cb8a4681-4ed0-43c4-b31f-7852b5d0bdea"
+                        class="img-responsive">
+                </div>
+                <div class="col-10">
+                    <ul>
+                        <li>
+                            <h4>{{title}} </h4>
+                            <p> {{content}}</p>
+                        </li>
+                    </ul>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+        <div id="projects" class="tabcontent">
+            <h2>Projects</h2>
+            <h3>These are some of my projects</h3>
+            <br />
+            <div class="row">
+                {{#each projects}}
+                <div class="col-2">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSti8xLu5UQxDWeqwbqfInVSu2sej1a7nj9MQ&usqp=CAU"
+                        class="img-responsive" width="100px" height="112px">
+                </div>
+                <div class="col-10">
+                    <ul>
+                        <li>
+                            <h4>{{title}} </h4>
+                            <p> {{content}}</p>
+                        </li>
+
+                    </ul>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+        <div id="software" class="tabcontent">
+            <h2> Software</h2>
+            <ul> {{#each software}}
+                <li>
+                    <h4>{{title}} </h4>
+                    <p> {{content}}</p>
+                </li>
+                {{/each}}
+            </ul>
+        </div>
+        <div id="publications" class="tabcontent">
+            <h2>Publications</h2>
+            <ul> {{#each publications}}
+                <li>
+                    <h4>{{title}} </h4>
+                    <p> {{content}}</p>
+                </li>
+                {{/each}}
+            </ul>
+        </div>
     </div>
 </div>
 <script>

@@ -1,3 +1,4 @@
+import { UsersModule } from './../users/users.module';
 import { CloudStorageModule } from './../cloud-storage/cloud-storage.module';
 import { Module } from '@nestjs/common';
 import { PostService } from './posts.service';
@@ -8,7 +9,8 @@ import { Post, PostSchema } from './schemas/post.schema';
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Post.name, schema: PostSchema }]),
-    CloudStorageModule
+    CloudStorageModule,
+    UsersModule,
   ],
   controllers: [PostsController],
   providers: [PostService],
