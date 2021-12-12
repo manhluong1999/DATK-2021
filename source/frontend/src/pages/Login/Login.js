@@ -12,10 +12,10 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Navigate } from 'react-router-dom';
 import useToken from '../../useToken';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
+import { useNavigate } from 'react-router';
 
 function Copyright(props) {
   return (
@@ -50,7 +50,7 @@ export default function Login() {
   const [password, setPassword] = useState();
   const [error, setError] = useState(false)
   const { token, setToken } = useToken();
-
+  const navigate = useNavigate()
   const handleSubmit = async e => {
     try {
       e.preventDefault();
@@ -69,7 +69,7 @@ export default function Login() {
   }
 
   if (token) {
-    return <Navigate to="/" />
+    navigate('/')
   }
   return (
     <ThemeProvider theme={theme}>
@@ -131,7 +131,7 @@ export default function Login() {
                 </Link>
               </Grid>
             </Grid>
-            <Alert severity="error" style={{display: error ? "" :"none"}} onClose={() => setError(false)}>
+            <Alert severity="error" style={{ display: error ? "" : "none" }} onClose={() => setError(false)}>
               <AlertTitle>Error</AlertTitle>
               Email or password is incorrect. <strong>Please try again!</strong>
             </Alert>

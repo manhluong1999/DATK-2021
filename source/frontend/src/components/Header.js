@@ -93,7 +93,7 @@ function DashboardContent() {
   };
   const logOut = () => {
     localStorage.clear();
-    navigate('/login');
+    window.location.href = '/';
   }
 
   const routeToAccount = () => {
@@ -199,17 +199,8 @@ function DashboardContent() {
         <Divider />
         <List>
           <ListItem button onClick={() => {
-             setPage('homepage')
-             navigate('/')
-          }} style={{backgroundColor: page === "homepage" ? "#1976d2" : ""}} >
-            <ListItemIcon>
-              <DashboardIcon />
-            </ListItemIcon>
-            <ListItemText primary="Home Page" />
-          </ListItem>
-          <ListItem button onClick={() => {
             setPage('aboutme')
-            navigate('/aboutme')
+            navigate('/')
           }} style={{backgroundColor: page === "aboutme" ? "#1976d2" : ""}}>
             <ListItemIcon>
               <InfoIcon />

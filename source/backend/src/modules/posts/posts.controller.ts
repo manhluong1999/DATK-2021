@@ -20,6 +20,12 @@ import { PostService } from './posts.service';
 @Controller()
 export class PostsController {
   constructor(private readonly postService: PostService) {}
+  
+  @Public([GUARDS.PUBLIC_GUARD])
+  @Get('test')
+  async test() {
+    return await this.postService.test();
+  }
 
   @Public([GUARDS.PUBLIC_GUARD])
   @Post()

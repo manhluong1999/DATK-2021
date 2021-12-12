@@ -15,6 +15,7 @@ import TextareaAutosize from '@mui/material/TextareaAutosize';
 import BuildIcon from '@mui/icons-material/Build';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { Navigate, useNavigate } from 'react-router';
 
 const mdTheme = createTheme();
 
@@ -28,8 +29,8 @@ export default function AboutMe() {
   const [title, setTitle] = React.useState("");
   const [content, setContent] = React.useState("");
   const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const handleMenu = (event,id) => {
+  const navigate = useNavigate()
+  const handleMenu = (event, id) => {
     setAnchorEl(event.currentTarget);
     setId(id)
   };
@@ -74,7 +75,7 @@ export default function AboutMe() {
   }
   useEffect(() => {
     async function fetchUser() {
-      const response = await fetch(`http://localhost:4000/api/v1/posts/${token.uid}?page=aboutme`, {
+      const response = await fetch(`http://localhost:4000/api/v1/posts/${token?.uid}?page=aboutme`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -84,7 +85,7 @@ export default function AboutMe() {
       const data = await response.json()
       setAboutMe(data)
     }
-    fetchUser()
+    token ? fetchUser() : console.log("Not log in")
   }, [refreshKey])
 
   const updatePost = async (body) => {
@@ -121,7 +122,7 @@ export default function AboutMe() {
     })
     setRefreshKey(oldKey => oldKey + 1)
   }
-  console.log(id)
+
   return <>
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: 'flex' }}>
@@ -161,7 +162,7 @@ export default function AboutMe() {
                       </Paper>
                     </Grid>
                     <Grid item xs={12} md={8} lg={1}>
-                      <IconButton color="inherit" sx={{ alignItems: "center" }} onClick={(event) => handleMenu(event,e.id)} >
+                      <IconButton color="inherit" sx={{ alignItems: "center" }} onClick={(event) => handleMenu(event, e.id)} >
                         <SettingsIcon />
                       </IconButton>
                       <Menu

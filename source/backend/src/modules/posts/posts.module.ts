@@ -1,3 +1,4 @@
+import { CloudStorageModule } from './../cloud-storage/cloud-storage.module';
 import { Module } from '@nestjs/common';
 import { PostService } from './posts.service';
 import { PostsController } from './posts.controller';
@@ -7,6 +8,7 @@ import { Post, PostSchema } from './schemas/post.schema';
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Post.name, schema: PostSchema }]),
+    CloudStorageModule
   ],
   controllers: [PostsController],
   providers: [PostService],

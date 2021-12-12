@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter, Route, Routes, Navigate} from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import './App.css';
 import AccountManagement from './pages/AccountManagement/AccountManagement';
 import HomePage from './pages/Dashboard/Dashboard';
@@ -14,15 +14,13 @@ import useToken from './useToken';
 
 
 const App = () => {
-  const {token} = useToken()
+  const { token } = useToken()
 
   return (
     <div className="wrapper">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<HomePage />}>
-          </Route>
-          <Route path="/aboutme" element={<AboutMe />}>
+          <Route path="/" element={<AboutMe />}>
           </Route>
           <Route path="/lectures" element={<Lectures />}>
           </Route>
@@ -34,7 +32,7 @@ const App = () => {
           </Route>
           <Route path="/account" element={<AccountManagement />}>
           </Route>
-          <Route path="/login" element={token ? <Navigate to='/' /> :<Login />}>
+          <Route path="/login" element={token ? <AboutMe /> : <Login />}>
           </Route>
           <Route path="/signup" element={<Signup />}>
           </Route>

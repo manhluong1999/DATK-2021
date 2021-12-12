@@ -1,3 +1,4 @@
+import { CloudStorageService } from './../cloud-storage/cloud-storage.service';
 import { CreatePostDto } from './dto/createPost.dto';
 import { FindAllQuery } from './dto/find-all.dto';
 import { Injectable } from '@nestjs/common';
@@ -8,8 +9,15 @@ import { UpdatePostDto } from './dto/updatePost.dto';
 
 @Injectable()
 export class PostService {
-  constructor(@InjectModel(Post.name) private postModel: Model<PostDocument>) {}
+  constructor(
+    @InjectModel(Post.name) private postModel: Model<PostDocument>,
+    private readonly storageService: CloudStorageService,
+  ) {}
 
+  async test() {
+    return await this.storageService.getdownloadFile('uid1.html')
+    return await this.storageService.uploadFile('abcdcd', 'uid1.html');
+  }
   async create(data: CreatePostDto) {
     const createdPost = new this.postModel(data);
     return await createdPost.save();
@@ -30,6 +38,6 @@ export class PostService {
   }
 
   async delete(id: string) {
-    return await this.postModel.deleteOne({_id: id})
+    return await this.postModel.deleteOne({ _id: id });
   }
 }
