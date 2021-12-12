@@ -25,6 +25,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import ApiIcon from '@mui/icons-material/Api';
 import PublicIcon from '@mui/icons-material/Public';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import { getBlob } from './common';
 
 const drawerWidth = 240;
 
@@ -100,6 +101,18 @@ function DashboardContent() {
     handleClose()
     navigate('/account')
   }
+
+  const handleDownload = async () => {
+    const response = await fetch('http://localhost:4000/api/v1/posts/download/' + token.uid, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token.accessToken,
+      },
+    })
+    const data = await response.json()
+    await getBlob(data.url, 'download.html')
+  }
   return (
     <>
       <CssBaseline />
@@ -136,6 +149,7 @@ function DashboardContent() {
             aria-controls="menu-appbar"
             aria-haspopup="true"
             color="inherit"
+            onClick={handleDownload}
           >
             <FileDownloadIcon />
           </IconButton>
@@ -201,7 +215,7 @@ function DashboardContent() {
           <ListItem button onClick={() => {
             setPage('aboutme')
             navigate('/')
-          }} style={{backgroundColor: page === "aboutme" ? "#1976d2" : ""}}>
+          }} style={{ backgroundColor: page === "aboutme" ? "#1976d2" : "" }}>
             <ListItemIcon>
               <InfoIcon />
             </ListItemIcon>
@@ -210,7 +224,7 @@ function DashboardContent() {
           <ListItem button onClick={() => {
             setPage('lectures')
             navigate('/lectures')
-          }} style={{backgroundColor: page === "lectures" ? "#1976d2" : ""}}>
+          }} style={{ backgroundColor: page === "lectures" ? "#1976d2" : "" }}>
             <ListItemIcon>
               <LibraryBooksIcon />
             </ListItemIcon>
@@ -219,7 +233,7 @@ function DashboardContent() {
           <ListItem button onClick={() => {
             setPage('projects')
             navigate('/projects')
-          }} style={{backgroundColor: page === "projects" ? "#1976d2" : ""}}>
+          }} style={{ backgroundColor: page === "projects" ? "#1976d2" : "" }}>
             <ListItemIcon>
               <LayersIcon />
             </ListItemIcon>
@@ -228,7 +242,7 @@ function DashboardContent() {
           <ListItem button onClick={() => {
             setPage('software')
             navigate('/software')
-          }} style={{backgroundColor: page === "software" ? "#1976d2" : ""}}>
+          }} style={{ backgroundColor: page === "software" ? "#1976d2" : "" }}>
             <ListItemIcon>
               <ApiIcon />
             </ListItemIcon>
@@ -237,7 +251,7 @@ function DashboardContent() {
           <ListItem button onClick={() => {
             setPage('publications')
             navigate('/publications')
-          }} style={{backgroundColor: page === "publications" ? "#1976d2" : ""}}>
+          }} style={{ backgroundColor: page === "publications" ? "#1976d2" : "" }}>
             <ListItemIcon>
               <PublicIcon />
             </ListItemIcon>

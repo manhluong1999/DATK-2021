@@ -11,12 +11,16 @@ export class CloudStorageService {
   compilePath(pathHtml) {
     return handlerbars.compile(fs.readFileSync(pathHtml, 'utf-8'));
   }
+  async uploadImg(fileName: string, buffer: Buffer) {
+    const storageRef = ref(this.storage, fileName);
+    await uploadBytes(storageRef, buffer);
+  }
   async uploadFile(data, fileName: string) {
     try {
       const storageRef = ref(this.storage, fileName);
       const sendObject = Object.assign({}, data);
       const compiled = this.compilePath(
-        'src/modules/cloud-storage/templates/test.html',
+        'src/modules/cloud-storage/templates/template.html',
       );
       const content = compiled(sendObject);
       const buffer = Buffer.from(content, 'utf-8');
@@ -25,7 +29,9 @@ export class CloudStorageService {
         charset: 'utf-8',
       };
       await uploadBytes(storageRef, buffer, metadata);
-      return 'OK';
+      return {
+        isSuccess: true,
+      };
     } catch (error) {
       console.log(error);
     }
@@ -35,15 +41,7 @@ export class CloudStorageService {
     try {
       const storageRef = ref(this.storage, fileName);
       const url = await getDownloadURL(storageRef);
-      console.log(url);
-      // This can be downloaded directly:
-      const response: any = await axios.get(url, {
-        responseType: 'arraybuffer',
-      });
-      console.log(response.data);
-
-      fs.writeFileSync('download.html', response.data);
-      return url;
+      return { url };
     } catch (error) {
       console.log(error);
     }

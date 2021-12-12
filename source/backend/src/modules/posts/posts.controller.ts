@@ -22,9 +22,9 @@ export class PostsController {
   constructor(private readonly postService: PostService) {}
   
   @Public([GUARDS.PUBLIC_GUARD])
-  @Get('test')
-  async test() {
-    return await this.postService.test();
+  @Get('download/:uid')
+  async getUrl(@Param('uid') uid: string) {
+    return await this.postService.getDownloadURL(uid);
   }
 
   @Public([GUARDS.PUBLIC_GUARD])

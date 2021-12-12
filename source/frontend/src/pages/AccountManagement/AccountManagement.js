@@ -3,12 +3,12 @@ import { Footer } from '../../components/Footer';
 import { Header } from '../../components/Header';
 import Box from '@mui/material/Box';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Container, Grid, Toolbar, Paper, Typography, IconButton, TextField } from '@mui/material';
+import { Container, Grid, Toolbar, Paper, Typography, IconButton, TextField, Button, CardMedia, Card } from '@mui/material';
 import useToken from '../../useToken';
 import EditIcon from '@mui/icons-material/Edit';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import SaveIcon from '@mui/icons-material/Save';
-
+import FileUploadIcon from '@mui/icons-material/FileUpload';
 const mdTheme = createTheme();
 
 
@@ -22,7 +22,7 @@ export default function AccountManagement() {
   const [address, setAddress] = useState()
   const [phone, setPhone] = useState()
   const [fax, setFax] = useState()
-
+  const [selectedFile, setFile] = useState()
   useEffect(() => {
     async function fetchUser() {
       const response = await fetch('http://localhost:4000/api/v1/users/' + token.email, {
@@ -48,8 +48,28 @@ export default function AccountManagement() {
       body: JSON.stringify(body)
     })
     const data = await response.json()
-    setRefreshKey(oldKey => oldKey +1)
+    setRefreshKey(oldKey => oldKey + 1)
   }
+  const onFileUpload = async () => {
+
+    // Create an object of formData
+    const formData = new FormData();
+    console.log(selectedFile)
+    // Update the formData object
+    formData.append(
+      "file",
+      selectedFile
+    );
+    const response = await fetch('http://localhost:4000/api/v1/users/' + token.email, {
+      method: 'PUT',
+      headers: {
+        'Authorization': 'Bearer ' + token.accessToken,
+      },
+      body: formData
+    })
+    const data = await response.json()
+    setRefreshKey(oldKey => oldKey + 1)
+  };
   return <ThemeProvider theme={mdTheme}>
     <Box sx={{ display: 'flex' }}>
       <Header />
@@ -102,8 +122,8 @@ export default function AccountManagement() {
                 style={firstName ? {} : { display: 'none' }}
                 onChange={e => setFirstName(e.target.value)}
               />
-              <IconButton style={firstName ? {} : { display: 'none' }}  onClick={() => updateData({firstName})}>
-                 <SaveIcon />
+              <IconButton style={firstName ? {} : { display: 'none' }} onClick={() => updateData({ firstName })}>
+                <SaveIcon />
               </IconButton>
             </Grid>
             <Grid item xs={12} lg={2}>
@@ -134,8 +154,8 @@ export default function AccountManagement() {
                 style={lastName ? {} : { display: 'none' }}
                 onChange={e => setLastName(e.target.value)}
               />
-              <IconButton style={lastName ? {} : { display: 'none' }}  onClick={() => updateData({lastName})}>
-                 <SaveIcon />
+              <IconButton style={lastName ? {} : { display: 'none' }} onClick={() => updateData({ lastName })}>
+                <SaveIcon />
               </IconButton>
             </Grid>
             <Grid item xs={12} lg={2}>
@@ -166,8 +186,8 @@ export default function AccountManagement() {
                 style={address ? {} : { display: 'none' }}
                 onChange={e => setAddress(e.target.value)}
               />
-               <IconButton style={address ? {} : { display: 'none' }}  onClick={() => updateData({address})}>
-                 <SaveIcon />
+              <IconButton style={address ? {} : { display: 'none' }} onClick={() => updateData({ address })}>
+                <SaveIcon />
               </IconButton>
             </Grid>
             <Grid item xs={12} lg={2}>
@@ -198,8 +218,8 @@ export default function AccountManagement() {
                 style={phone ? {} : { display: 'none' }}
                 onChange={e => setPhone(e.target.value)}
               />
-              <IconButton style={phone ? {} : { display: 'none' }}  onClick={() => updateData({phone})}>
-                 <SaveIcon />
+              <IconButton style={phone ? {} : { display: 'none' }} onClick={() => updateData({ phone })}>
+                <SaveIcon />
               </IconButton>
             </Grid>
             <Grid item xs={12} lg={2}>
@@ -230,8 +250,8 @@ export default function AccountManagement() {
                 style={fax ? {} : { display: 'none' }}
                 onChange={e => setFax(e.target.value)}
               />
-              <IconButton style={fax ? {} : { display: 'none' }}  onClick={() => updateData({fax})}>
-                 <SaveIcon />
+              <IconButton style={fax ? {} : { display: 'none' }} onClick={() => updateData({ fax })}>
+                <SaveIcon />
               </IconButton>
             </Grid>
             <Grid item xs={12} lg={2}>
@@ -240,6 +260,25 @@ export default function AccountManagement() {
               </IconButton>
               <IconButton style={fax ? {} : { display: 'none' }} sx={{ p: 2, display: 'flex', flexDirection: 'column' }} onClick={() => setFax(false)}>
                 <ArrowDropUpIcon />
+              </IconButton>
+            </Grid>
+            <Grid item xs={12} lg={2}>
+              <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                <Typography style={{ fontWeight: "bold" }}>
+                  Avatar
+                </Typography>
+              </Paper>
+            </Grid>
+            <Grid item xs={12} lg={8}>
+              {user?.imgUrl ? <Card >
+                <CardMedia
+                  component="img"
+                  image={user.imgUrl}
+                />
+              </Card> : "No image"}
+              <input type="file" onChange={e => setFile(e.target.files[0])} />
+              <IconButton sx={{ p: 2, display: 'flex', flexDirection: 'column' }} onClick={onFileUpload} >
+                <FileUploadIcon />
               </IconButton>
             </Grid>
           </Grid>

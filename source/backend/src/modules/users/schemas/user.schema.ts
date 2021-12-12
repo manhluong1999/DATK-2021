@@ -37,6 +37,9 @@ export class User {
 
   @Prop()
   address: string
+
+  @Prop()
+  imgUrl: string
 }
 
 const UserSchema = SchemaFactory.createForClass(User);

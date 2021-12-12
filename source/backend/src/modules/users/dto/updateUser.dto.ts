@@ -8,4 +8,6 @@ export class UpdateUserDto {
   phone: string;
 
   address: string;
+
+  imgUrl: string
 }

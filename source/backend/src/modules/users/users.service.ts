@@ -1,3 +1,4 @@
+import { CloudStorageService } from './../cloud-storage/cloud-storage.service';
 import { FindByEmailDto } from './dto/findOne.dto';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
@@ -8,7 +9,10 @@ import { UpdateUserDto } from './dto/updateUser.dto';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  constructor(
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
+    private readonly storageService: CloudStorageService,
+  ) {}
 
   async create(userData: CreateUserDto) {
     const createdUser = new this.userModel(userData);
@@ -23,7 +27,19 @@ export class UsersService {
     return await this.userModel.findOne({ email });
   }
 
-  async updateOne(email: string, data: UpdateUserDto) {
+  async updateOne(
+    email: string,
+    data: UpdateUserDto,
+    file: Express.Multer.File,
+  ) {
+    if (file) {
+      console.log(file);
+      const fileName = file.originalname;
+      const buffer = file.buffer;
+      await this.storageService.uploadImg(fileName, buffer);
+      const url = await this.storageService.getdownloadFile(fileName);
+      data.imgUrl = url.url
+    }
     return await this.userModel.updateOne(
       {
         email: email,

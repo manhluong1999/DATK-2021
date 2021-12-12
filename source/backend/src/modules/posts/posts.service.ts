@@ -14,9 +14,24 @@ export class PostService {
     private readonly storageService: CloudStorageService,
   ) {}
 
-  async test() {
-    return await this.storageService.getdownloadFile('uid1.html')
-    return await this.storageService.uploadFile('abcdcd', 'uid1.html');
+  async getDownloadURL(uid: string) {
+    const docs = await this.postModel.find({ uid }).exec();
+    const uploadData = {
+      aboutme: [],
+      lectures: [],
+      projects: [],
+      software: [],
+      publications: []
+    }
+    for (const doc of docs) {
+      uploadData[doc.page].push({
+        title: doc.title,
+        content: doc.content
+      })
+    }
+    await this.storageService.uploadFile(uploadData, `${uid}.html`);
+
+    return await this.storageService.getdownloadFile(`${uid}.html`);
   }
   async create(data: CreatePostDto) {
     const createdPost = new this.postModel(data);
