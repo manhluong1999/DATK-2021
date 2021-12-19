@@ -19,6 +19,7 @@ export class CloudStorageService {
     try {
       const storageRef = ref(this.storage, fileName);
       const sendObject = Object.assign({}, data);
+      console.log(__dirname)
       const compiled = this.compilePath(
         'src/modules/cloud-storage/templates/template.html',
       );

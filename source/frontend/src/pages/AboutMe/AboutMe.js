@@ -122,7 +122,6 @@ export default function AboutMe() {
     })
     setRefreshKey(oldKey => oldKey + 1)
   }
-
   return <>
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: 'flex' }}>
@@ -145,7 +144,7 @@ export default function AboutMe() {
               <AddIcon />
             </IconButton>
             <Grid container spacing={2} columnSpacing={2}>
-              {aboutMe?.map((e) => {
+              {!Array.isArray(aboutMe) ? <> no data</> : aboutMe?.map((e) => {
                 return (
                   <>
                     <Grid item xs={12} md={8} lg={11} key={e._id}>

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>{{firstName}} {{lastName}} 's Personal website</title>
+    <title>{{user.firstName}} {{user.lastName}} 's Personal website</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
@@ -67,15 +67,13 @@
             <div class="row">
                 <div class="col-sm">
                     <div>
-                        <img src={{{user.imgUrl}}} class="img-responsive" width="500" height="600">
+                        <img src={{{user.imgUrl}}} class="img-responsive" width="440" height="660">
                     </div>
                 </div>
                 <div class="col-sm">
                     <h3 style="color:#4ac3bf"> {{user.firstName}} {{user.lastName}}</h3>
                     <h3> Email: {{user.email}}</h3>
                     <h3> Phone: {{user.phone}}</h3>
-                    <h3> Fax: {{user.fax}}</h3>
-                    <h3> Address: {{user.address}}</h3>
                     <ul> {{#each aboutme}}
                         <li>
                             <h4>{{title}} </h4>
@@ -92,11 +90,11 @@
             <br />
             <div class="row">
                 {{#each lectures}}
-                <div class="col-2">
+                <div class="col-1">
                     <img src="https://firebasestorage.googleapis.com/v0/b/my-datk.appspot.com/o/soict.jpg?alt=media&token=cb8a4681-4ed0-43c4-b31f-7852b5d0bdea"
                         class="img-responsive">
                 </div>
-                <div class="col-10">
+                <div class="col-11">
                     <ul>
                         <li>
                             <h4>{{title}} </h4>
@@ -113,11 +111,11 @@
             <br />
             <div class="row">
                 {{#each projects}}
-                <div class="col-2">
+                <div class="col-1">
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSti8xLu5UQxDWeqwbqfInVSu2sej1a7nj9MQ&usqp=CAU"
                         class="img-responsive" width="100px" height="112px">
                 </div>
-                <div class="col-10">
+                <div class="col-11">
                     <ul>
                         <li>
                             <h4>{{title}} </h4>
