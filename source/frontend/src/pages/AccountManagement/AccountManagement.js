@@ -3,7 +3,7 @@ import { Footer } from '../../components/Footer';
 import { Header } from '../../components/Header';
 import Box from '@mui/material/Box';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Container, Grid, Toolbar, Paper, Typography, IconButton, TextField, Button, CardMedia, Card } from '@mui/material';
+import { Container, Grid, Toolbar, Paper, Typography, IconButton, TextField, Button, CardMedia, Card, Alert, AlertTitle } from '@mui/material';
 import useToken from '../../useToken';
 import EditIcon from '@mui/icons-material/Edit';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
@@ -23,6 +23,7 @@ export default function AccountManagement() {
   const [phone, setPhone] = useState()
   const [fax, setFax] = useState()
   const [selectedFile, setFile] = useState()
+  const [errorCode, setError] = useState(false)
   useEffect(() => {
     async function fetchUser() {
       const response = await fetch('http://localhost:4000/api/v1/users/' + token.email, {
@@ -39,6 +40,11 @@ export default function AccountManagement() {
   }, [refreshKey])
 
   const updateData = async (body) => {
+    console.log(body)
+    if (body[Object.keys(body)] == true) {
+      setError(true)
+      return;
+    }
     const response = await fetch('http://localhost:4000/api/v1/users/' + token.email, {
       method: 'PUT',
       headers: {
@@ -87,6 +93,10 @@ export default function AccountManagement() {
       >
         <Toolbar />
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+          {errorCode && <Alert severity="error" onClose={() => setError(false)}>
+            <AlertTitle>Error</AlertTitle>
+            Input invalid <strong>Please try again!</strong>
+          </Alert>}
           <Grid container spacing={1} columnSpacing={2}>
             <Grid item xs={12} lg={2}>
               <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>

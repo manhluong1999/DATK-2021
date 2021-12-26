@@ -48,20 +48,26 @@ export default function Login() {
 
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const [error, setError] = useState(false)
+  const [errorCode, setError] = useState(0)
   const { token, setToken } = useToken();
   const navigate = useNavigate()
   const handleSubmit = async e => {
     try {
       e.preventDefault();
+      if (!email || !password) {
+        setError(1)
+        return
+      }
       const token = await loginUser({
         email,
         password
       });
       if (token.code != 400) {
+        alert('Login Successfully')
+        setError(200)
         setToken(token);
       } else {
-        setError(true)
+        setError(400)
       }
     } catch (error) {
       console.log(error)
@@ -131,10 +137,18 @@ export default function Login() {
                 </Link>
               </Grid>
             </Grid>
-            <Alert severity="error" style={{ display: error ? "" : "none" }} onClose={() => setError(false)}>
+            <Alert severity="error" style={{ display: errorCode == 400 ? "" : "none" }} onClose={() => setError(0)}>
               <AlertTitle>Error</AlertTitle>
               Email or password is incorrect. <strong>Please try again!</strong>
             </Alert>
+            <Alert severity="error" style={{ display: errorCode == 1 ? "" : "none" }} onClose={() => setError(0)}>
+              <AlertTitle>Error</AlertTitle>
+              Please enter email and password
+            </Alert>
+            {errorCode == 200 && <Alert severity="success" onClose={() => setError(0)}>
+              <AlertTitle>Success</AlertTitle>
+              Log in successfully. <strong>Redirect to homepage!</strong>
+            </Alert>}
           </Box>
         </Box>
 
